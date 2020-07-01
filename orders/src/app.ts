@@ -19,7 +19,7 @@ app.use(
   cookieSession({
     signed: false,
     // Supertest makes plain http requests; disable https requirement in test env
-    secure: process.env.NODE_ENV !== 'test',
+    secure: false,
   })
 );
 app.use(currentUser);
