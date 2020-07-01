@@ -7,7 +7,7 @@ describe('Current User', () => {
   it('responds with details about the current user', async () => {
     const { cookie, email } = await global.signin();
 
-    const response = await request(app).get(currentuserUri).set('Cookie', cookie).expect(400);
+    const response = await request(app).get(currentuserUri).set('Cookie', cookie).expect(200);
     expect(response.body.currentUser.email).toEqual(email);
   });
 
