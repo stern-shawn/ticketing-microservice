@@ -2,6 +2,7 @@ import { natsClient } from './nats-client';
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 
 const start = async () => {
+  console.log('Starting expiration service.......');
   const { NATS_URI, NATS_CLUSTER_ID, NATS_CLIENT_ID } = process.env;
 
   if (!NATS_URI) throw new Error('NATS_URI not defined!');
