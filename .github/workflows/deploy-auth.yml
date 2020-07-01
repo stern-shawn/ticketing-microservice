@@ -1,7 +1,7 @@
 name: deploy-auth
 on:
   push:
-    branches: 
+    branches:
       - master
     paths:
       - 'auth/**'
@@ -10,9 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      # Build docker image, login to dockerhub, and push
       - run: cd auth && docker build -t sternshawn/auth .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push sternshawn/auth  
+      - run: docker push sternshawn/auth
+      # Install doctl + authenticate
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      # Connect to our DO k8s cluster context
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      # Run deploy + restart!
+      - run: kubectl rollout restart deployment auth-depl
