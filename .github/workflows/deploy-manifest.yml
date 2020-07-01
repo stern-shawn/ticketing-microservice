@@ -16,5 +16,5 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       # Connect to our DO k8s cluster context
       - run: doctl kubernetes cluster kubeconfig save ticketing
-      # Apply k8s configs
-      - run: kubectl apply -f infra/k8s
+      # Apply k8s configs from base + prod
+      - run: kubectl apply -f infra/k8s -f infra/k8s-prod
