@@ -10,6 +10,8 @@ import { PaymentCreatedListener } from './events/listeners/payment-created-liste
 const PORT = 3000;
 
 const start = async () => {
+  console.log('Starting up orders service...');
+
   const { JWT_KEY, MONGO_URI, NATS_URI, NATS_CLUSTER_ID, NATS_CLIENT_ID } = process.env;
 
   if (!JWT_KEY) throw new Error('JWT_KEY not defined!');
